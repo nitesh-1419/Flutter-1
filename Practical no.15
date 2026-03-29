@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: ColorSliderDemo(),
+    );
+  }
+}
+
+class ColorSliderDemo extends StatefulWidget {
+  @override
+  _ColorSliderDemoState createState() => _ColorSliderDemoState();
+}
+
+class _ColorSliderDemoState extends State<ColorSliderDemo> {
+
+  double red = 0;
+  double green = 0;
+  double blue = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("RGB Color Slider"),
+      ),
+
+      backgroundColor: Color.fromRGBO(
+        red.toInt(),
+        green.toInt(),
+        blue.toInt(),
+        1,
+      ),
+
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+
+            Text("Red: ${red.toInt()}"),
+            Slider(
+              min: 0,
+              max: 255,
+              value: red,
+              activeColor: Colors.red,
+              onChanged: (value) {
+                setState(() {
+                  red = value;
+                });
+              },
+            ),
+
+            SizedBox(height: 20),
+
+            Text("Green: ${green.toInt()}"),
+            Slider(
+              min: 0,
+              max: 255,
+              value: green,
+              activeColor: Colors.green,
+              onChanged: (value) {
+                setState(() {
+                  green = value;
+                });
+              },
+            ),
+
+            SizedBox(height: 20),
+
+            Text("Blue: ${blue.toInt()}"),
+            Slider(
+              min: 0,
+              max: 255,
+              value: blue,
+              activeColor: Colors.blue,
+              onChanged: (value) {
+                setState(() {
+                  blue = value;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
