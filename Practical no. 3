@@ -1,0 +1,180 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Number Operations',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: NumberScreen(),
+    );
+  }
+}
+
+class NumberScreen extends StatefulWidget {
+  @override
+  _NumberScreenState createState() => _NumberScreenState();
+}
+
+class _NumberScreenState extends State<NumberScreen> {
+  TextEditingController numberController = TextEditingController();
+  String result = "";
+
+  int number = 0;
+
+  void getNumber() {
+    setState(() {
+      number = int.tryParse(numberController.text) ?? 0;
+    });
+  }
+
+  void checkEvenOdd() {
+    getNumber();
+    setState(() {
+      result = (number % 2 == 0) ? "Even Number" : "Odd Number";
+    });
+  }
+
+  void checkLeapYear() {
+    getNumber();
+    setState(() {
+      if ((number % 4 == 0 && number % 100 != 0) || number % 400 == 0) {
+        result = "$number is Leap Year";
+      } else {
+        result = "$number is Not Leap Year";
+      }
+    });
+  }
+
+  void checkPrime() {
+    getNumber();
+    bool isPrime = true;
+
+    if (number <= 1) {
+      isPrime = false;
+    } else {
+      for (int i = 2; i <= number ~/ 2; i++) {
+        if (number % i == 0) {
+          isPrime = false;
+          break;
+        }
+      }
+    }
+
+    setState(() {
+      result = isPrime ? "Prime Number" : "Not Prime Number";
+    });
+  }
+
+  void checkPalindrome() {
+    getNumber();
+    String original = number.toString();
+    String reversed = original.split('').reversed.join('');
+
+    setState(() {
+      result = (original == reversed)
+          ? "Palindrome Number"
+          : "Not Palindrome";
+    });
+  }
+
+  void factorial() {
+    getNumber();
+    int fact = 1;
+
+    for (int i = 1; i <= number; i++) {
+      fact *= i;
+    }
+
+    setState(() {
+      result = "Factorial = $fact";
+    });
+  }
+
+  void fibonacci() {
+    getNumber();
+    int n1 = 0, n2 = 1;
+    String series = "0 1 ";
+
+    for (int i = 2; i < number; i++) {
+      int n3 = n1 + n2;
+      series += "$n3 ";
+      n1 = n2;
+      n2 = n3;
+    }
+
+    setState(() {
+      result = "Fibonacci: $series";
+    });
+  }
+
+  Widget buildButton(String text, Function function) {
+    return ElevatedButton(
+      onPressed: () => function(),
+      child: Text(text),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Number Operations App"),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+
+            TextField(
+              controller: numberController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Enter a Number",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+
+                buildButton("Even / Odd", checkEvenOdd),
+                buildButton("Leap Year", checkLeapYear),
+                buildButton("Prime", checkPrime),
+                buildButton("Palindrome", checkPalindrome),
+                buildButton("Factorial", factorial),
+                buildButton("Fibonacci", fibonacci),
+
+              ],
+            ),
+
+            SizedBox(height: 30),
+
+            Text(
+              result,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+}
