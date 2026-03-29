@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Flutter Layout Demo",
+      home: LayoutDemo(),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Different Layouts in Flutter"),
+      ),
+
+      body: Column(
+        children: [
+
+          // Container Layout
+          Container(
+            height: 80,
+            width: double.infinity,
+            color: Colors.blue,
+            child: Center(
+              child: Text(
+                "Container Layout",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 20),
+
+          // Row Layout
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(height: 60, width: 60, color: Colors.red),
+              Container(height: 60, width: 60, color: Colors.green),
+              Container(height: 60, width: 60, color: Colors.orange),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          // Column Layout
+          Column(
+            children: [
+              Container(height: 50, width: 120, color: Colors.purple),
+              SizedBox(height: 10),
+              Container(height: 50, width: 120, color: Colors.teal),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          // Expanded Layout
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(child: Container(color: Colors.yellow)),
+                Expanded(child: Container(color: Colors.cyan)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
