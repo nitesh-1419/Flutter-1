@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ShopPage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class ShopPage extends StatelessWidget {
+
+  List<String> products = [
+    "Shoes",
+    "Watch",
+    "Phone",
+    "Laptop",
+    "Bag",
+    "Camera"
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Shopping Cart"),
+      ),
+
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: products.map((item) {
+
+          return Card(
+            margin: EdgeInsets.all(10),
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+
+                Icon(Icons.shopping_bag, size: 50),
+
+                SizedBox(height: 10),
+
+                Text(
+                  item,
+                  style: TextStyle(fontSize: 18),
+                ),
+
+                SizedBox(height: 10),
+
+                ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("$item added to cart")),
+                    );
+                  },
+                  child: Text("Add to Cart"),
+                )
+
+              ],
+            ),
+          );
+
+        }).toList(),
+      ),
+    );
+  }
+}
