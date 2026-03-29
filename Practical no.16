@@ -1,0 +1,205 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Flutter Layout Demo",
+      home: LayoutDemo(),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Different Layouts in Flutter"),
+      ),
+
+      body: Column(
+        children: [
+
+          // Container Layout
+          Container(
+            height: 80,
+            width: double.infinity,
+            color: Colors.blue,
+            child: Center(
+              child: Text(
+                "Container Layout",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 20),
+
+          // Row Layout
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(height: 60, width: 60, color: Colors.red),
+              Container(height: 60, width: 60, color: Colors.green),
+              Container(height: 60, width: 60, color: Colors.orange),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          // Column Layout
+          Column(
+            children: [
+              Container(height: 50, width: 120, color: Colors.purple),
+              SizedBox(height: 10),
+              Container(height: 50, width: 120, color: Colors.teal),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          // Expanded Layoutimport 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: QuizApp(),
+    );
+  }
+}
+
+class QuizApp extends StatefulWidget {
+  @override
+  _QuizAppState createState() => _QuizAppState();
+}
+
+class _QuizAppState extends State<QuizApp> {
+
+  int questionIndex = 0;
+  int score = 0;
+
+  List<Map<String, Object>> questions = [
+    {
+      'question': 'Who developed Flutter?',
+      'answers': [
+        {'text': 'Google', 'score': 1},
+        {'text': 'Microsoft', 'score': 0},
+        {'text': 'Facebook', 'score': 0},
+      ]
+    },
+    {
+      'question': 'Which language is used in Flutter?',
+      'answers': [
+        {'text': 'Java', 'score': 0},
+        {'text': 'Dart', 'score': 1},
+        {'text': 'Python', 'score': 0},
+      ]
+    },
+    {
+      'question': 'Flutter is used for?',
+      'answers': [
+        {'text': 'Mobile Apps', 'score': 1},
+        {'text': 'Game Engine', 'score': 0},
+        {'text': 'Database', 'score': 0},
+      ]
+    }
+  ];
+
+  void answerQuestion(int scoreValue) {
+    score += scoreValue;
+
+    setState(() {
+      questionIndex++;
+    });
+  }
+
+  void restartQuiz() {
+    setState(() {
+      questionIndex = 0;
+      score = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Quiz Application"),
+      ),
+
+      body: questionIndex < questions.length
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Text(
+                  questions[questionIndex]['question'] as String,
+                  style: TextStyle(fontSize: 22),
+                  textAlign: TextAlign.center,
+                ),
+
+                SizedBox(height: 20),
+
+                ...(questions[questionIndex]['answers']
+                        as List<Map<String, Object>>)
+                    .map((answer) {
+                  return Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      child: Text(answer['text'] as String),
+                      onPressed: () => answerQuestion(answer['score'] as int),
+                    ),
+                  );
+                }).toList(),
+              ],
+            )
+
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Quiz Finished!\nYour Score: $score",
+                    style: TextStyle(fontSize: 24),
+                    textAlign: TextAlign.center,
+                  ),
+
+                  SizedBox(height: 20),
+
+                  ElevatedButton(
+                    onPressed: restartQuiz,
+                    child: Text("Restart Quiz"),
+                  )
+                ],
+              ),
+            ),
+    );
+  }
+}
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(child: Container(color: Colors.yellow)),
+                Expanded(child: Container(color: Colors.cyan)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
