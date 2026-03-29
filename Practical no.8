@@ -1,0 +1,135 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Dropdown Navigation",
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  String selectedOption = "Select";
+
+  List<String> options = [
+    "Google",
+    "Yahoo",
+    "Gmail",
+    "Login"
+  ];
+
+  void navigate(String value) {
+
+    if (value == "Google") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => GooglePage()),
+      );
+    }
+
+    if (value == "Yahoo") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => YahooPage()),
+      );
+    }
+
+    if (value == "Gmail") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => GmailPage()),
+      );
+    }
+
+    if (value == "Login") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Dropdown Navigation App"),
+        centerTitle: true,
+      ),
+
+      body: Center(
+        child: DropdownButton<String>(
+          hint: Text("Select Application"),
+          value: selectedOption == "Select" ? null : selectedOption,
+          items: options.map((String option) {
+            return DropdownMenuItem(
+              value: option,
+              child: Text(option),
+            );
+          }).toList(),
+
+          onChanged: (value) {
+            setState(() {
+              selectedOption = value!;
+            });
+            navigate(value!);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class GooglePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Google Page")),
+      body: Center(child: Text("Welcome to Google")),
+    );
+  }
+}
+
+class YahooPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Yahoo Page")),
+      body: Center(child: Text("Welcome to Yahoo")),
+    );
+  }
+}
+
+class GmailPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Gmail Page")),
+      body: Center(child: Text("Welcome to Gmail")),
+    );
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Login Page")),
+      body: Center(child: Text("Login Application Screen")),
+    );
+  }
+}
