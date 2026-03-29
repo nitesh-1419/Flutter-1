@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "AppBar & SnackBar Demo",
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+
+  void showSnackBar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text("This is a SnackBar message!"),
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: "Undo",
+        onPressed: () {},
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: Text("AppBar Example"),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+      ),
+
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            showSnackBar(context);
+          },
+          child: Text("Show SnackBar"),
+        ),
+      ),
+
+    );
+  }
+}
