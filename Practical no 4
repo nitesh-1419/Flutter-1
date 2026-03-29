@@ -1,0 +1,164 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Font Style App",
+      home: FontScreen(),
+    );
+  }
+}
+
+class FontScreen extends StatefulWidget {
+  @override
+  _FontScreenState createState() => _FontScreenState();
+}
+
+class _FontScreenState extends State<FontScreen> {
+
+  TextEditingController sizeController = TextEditingController();
+
+  String selectedFont = "Roboto";
+
+  bool bold = false;
+  bool italic = false;
+  bool underline = false;
+
+  double fontSize = 20;
+
+  List<String> fonts = [
+    "Roboto",
+    "Serif",
+    "Monospace",
+    "Sans-serif"
+  ];
+
+  FontWeight getWeight() {
+    return bold ? FontWeight.bold : FontWeight.normal;
+  }
+
+  FontStyle getStyle() {
+    return italic ? FontStyle.italic : FontStyle.normal;
+  }
+
+  TextDecoration getDecoration() {
+    return underline ? TextDecoration.underline : TextDecoration.none;
+  }
+
+  void showText() {
+    setState(() {
+      fontSize = double.tryParse(sizeController.text) ?? 20;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Font Style Application"),
+        centerTitle: true,
+      ),
+
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            TextField(
+              controller: sizeController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Enter Font Size",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            Text("Select Font"),
+
+            DropdownButton<String>(
+              value: selectedFont,
+              items: fonts.map((font) {
+                return DropdownMenuItem(
+                  value: font,
+                  child: Text(font),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedFont = value!;
+                });
+              },
+            ),
+
+            SizedBox(height: 20),
+
+            Text("Font Style"),
+
+            CheckboxListTile(
+              title: Text("Bold"),
+              value: bold,
+              onChanged: (value) {
+                setState(() {
+                  bold = value!;
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              title: Text("Italic"),
+              value: italic,
+              onChanged: (value) {
+                setState(() {
+                  italic = value!;
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              title: Text("Underline"),
+              value: underline,
+              onChanged: (value) {
+                setState(() {
+                  underline = value!;
+                });
+              },
+            ),
+
+            Center(
+              child: ElevatedButton(
+                onPressed: showText,
+                child: Text("Show"),
+              ),
+            ),
+
+            SizedBox(height: 30),
+
+            Center(
+              child: Text(
+                "Flutter Font Demo",
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: getWeight(),
+                  fontStyle: getStyle(),
+                  decoration: getDecoration(),
+                  fontFamily: selectedFont,
+                ),
+              ),
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+}
