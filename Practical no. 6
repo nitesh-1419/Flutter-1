@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(AlphabetApp());
+}
+
+class AlphabetApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Alphabet Image App",
+      home: AlphabetScreen(),
+    );
+  }
+}
+
+class AlphabetScreen extends StatefulWidget {
+  @override
+  _AlphabetScreenState createState() => _AlphabetScreenState();
+}
+
+class _AlphabetScreenState extends State<AlphabetScreen> {
+
+  String selectedLetter = "";
+  String imagePath = "";
+
+  List<String> alphabets =
+      List.generate(26, (index) => String.fromCharCode(index + 65));
+
+  void showImage(String letter) {
+    setState(() {
+      selectedLetter = letter;
+      imagePath = "assets/images/${letter.toLowerCase()}.png";
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: Text("Alphabet Image App"),
+        centerTitle: true,
+      ),
+
+      body: Column(
+        children: [
+
+          SizedBox(height: 10),
+
+          Expanded(
+            flex: 2,
+            child: GridView.count(
+              crossAxisCount: 5,
+              children: alphabets.map((letter) {
+
+                return GestureDetector(
+                  onTap: () {
+                    showImage(letter);
+                  },
+
+                  child: Card(
+                    color: Colors.blue.shade100,
+                    child: Center(
+                      child: Text(
+                        letter,
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+
+              }).toList(),
+            ),
+          ),
+
+          Expanded(
+            flex: 3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Text(
+                  selectedLetter == ""
+                      ? "Select a Letter"
+                      : "Letter: $selectedLetter",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                imagePath == ""
+                    ? Container()
+                    : Image.asset(
+                        imagePath,
+                        height: 150,
+                      ),
+
+              ],
+            ),
+          )
+
+        ],
+      ),
+    );
+  }
+}
