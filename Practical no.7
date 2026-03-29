@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:video_player/video_player.dart';
+
+void main() {
+  runApp(MediaApp());
+}
+
+class MediaApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Audio Video Player",
+      home: MediaScreen(),
+    );
+  }
+}
+
+class MediaScreen extends StatefulWidget {
+  @override
+  _MediaScreenState createState() => _MediaScreenState();
+}
+
+class _MediaScreenState extends State<MediaScreen> {
+
+  final AudioPlayer audioPlayer = AudioPlayer();
+  late VideoPlayerController videoController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    videoController =
+        VideoPlayerController.asset('assets/video/sample.mp4')
+          ..initialize().then((_) {
+            setState(() {});
+          });
+  }
+
+  void playAudio() async {
+    await audioPlayer.play(AssetSource('audio/music.mp3'));
+  }
+
+  void playVideo() {
+    setState(() {
+      videoController.play();
+    });
+  }
+
+  @override
+  void dispose() {
+    videoController.dispose();
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Audio & Video Player"),
+        centerTitle: true,
+      ),
+
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          ElevatedButton(
+            onPressed: playAudio,
+            child: Text("Play Audio"),
+          ),
+
+          SizedBox(height: 20),
+
+          ElevatedButton(
+            onPressed: playVideo,
+            child: Text("Play Video"),
+          ),
+
+          SizedBox(height: 20),
+
+          videoController.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: videoController.value.aspectRatio,
+                  child: VideoPlayer(videoController),
+                )
+              : Text("Video Loading..."),
+        ],
+      ),
+    );
+  }
+}
