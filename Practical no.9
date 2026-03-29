@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(PollApp());
+}
+
+class PollApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Opinion Poll App",
+      home: PollScreen(),
+    );
+  }
+}
+
+class PollScreen extends StatefulWidget {
+  @override
+  _PollScreenState createState() => _PollScreenState();
+}
+
+class _PollScreenState extends State<PollScreen> {
+
+  int option1Votes = 0;
+  int option2Votes = 0;
+  int option3Votes = 0;
+
+  int selectedOption = 1;
+
+  void addVote() {
+    setState(() {
+
+      if (selectedOption == 1) {
+        option1Votes++;
+      }
+
+      if (selectedOption == 2) {
+        option2Votes++;
+      }
+
+      if (selectedOption == 3) {
+        option3Votes++;
+      }
+
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Opinion Poll / Hit Counter"),
+        centerTitle: true,
+      ),
+
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          Text(
+            "Which is your favorite language?",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          SizedBox(height: 20),
+
+          RadioListTile(
+            title: Text("Flutter"),
+            value: 1,
+            groupValue: selectedOption,
+            onChanged: (value) {
+              setState(() {
+                selectedOption = value!;
+              });
+            },
+          ),
+
+          Text("Votes: $option1Votes"),
+
+          RadioListTile(
+            title: Text("Java"),
+            value: 2,
+            groupValue: selectedOption,
+            onChanged: (value) {
+              setState(() {
+                selectedOption = value!;
+              });
+            },
+          ),
+
+          Text("Votes: $option2Votes"),
+
+          RadioListTile(
+            title: Text("Python"),
+            value: 3,
+            groupValue: selectedOption,
+            onChanged: (value) {
+              setState(() {
+                selectedOption = value!;
+              });
+            },
+          ),
+
+          Text("Votes: $option3Votes"),
+
+        ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: addVote,
+        child: Icon(Icons.how_to_vote),
+      ),
+
+    );
+  }
+}
